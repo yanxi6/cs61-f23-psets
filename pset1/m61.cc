@@ -96,6 +96,12 @@ m61_statistics m61_get_statistics() {
     // The handout code sets all statistics to enormous numbers.
     m61_statistics stats;
     memset(&stats, 255, sizeof(m61_statistics));
+    stats.nactive = 0;
+    stats.ntotal = 0;
+    stats.nfail = 0;
+    stats.active_size = 0;
+    stats.total_size = 0;
+    stats.fail_size = 0;
     return stats;
 }
 
