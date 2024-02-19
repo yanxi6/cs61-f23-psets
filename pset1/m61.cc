@@ -34,8 +34,8 @@ m61_memory_buffer::~m61_memory_buffer() {
     munmap(this->buffer, this->size);
 }
 
-
-
+// Initialize global stats
+static m61_statistics gstats = {0, 0, 0, 0, 0, 0, NULL, NULL};
 
 /// m61_malloc(sz, file, line)
 ///    Returns a pointer to `sz` bytes of freshly-allocated dynamic memory.
@@ -50,6 +50,14 @@ void* m61_malloc(size_t sz, const char* file, int line) {
         // Not enough space left in default buffer for allocation
         return nullptr;
     }
+
+    // update global stats. test 1-17
+    gstats.nactive;
+    gstats.ntotal += sz;
+    gstats.nfail;
+    gstats.active_size;
+    gstats.total_size;
+    gstats.fail_size;
 
     // Otherwise there is enough space; claim the next `sz` bytes
     void* ptr = &default_buffer.buffer[default_buffer.pos];
@@ -95,13 +103,13 @@ m61_statistics m61_get_statistics() {
     // Your code here.
     // The handout code sets all statistics to enormous numbers.
     m61_statistics stats;
-    memset(&stats, 255, sizeof(m61_statistics));
-    stats.nactive = 0;
-    stats.ntotal = 0;
-    stats.nfail = 0;
-    stats.active_size = 0;
-    stats.total_size = 0;
-    stats.fail_size = 0;
+    // memset(&stats, 255, sizeof(m61_statistics));
+    stats.nactive = gstats.nactive;
+    stats.ntotal = gstats.ntotal;
+    stats.nfail = gstats.nfail;
+    stats.active_size = gstats.active_size;
+    stats.total_size = gstats.total_size;
+    stats.fail_size = gstats.fail_size;
     return stats;
 }
 
